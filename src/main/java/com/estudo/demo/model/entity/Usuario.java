@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Data
 @Builder
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class Usuario {
 
     @Id
