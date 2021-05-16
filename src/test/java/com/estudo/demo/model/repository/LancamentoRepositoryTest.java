@@ -3,21 +3,22 @@ package com.estudo.demo.model.repository;
 import com.estudo.demo.model.entity.Lancamento;
 import com.estudo.demo.model.enums.StatusLancamento;
 import com.estudo.demo.model.enums.TipoLancamento;
-import org.junit.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.runner.RunWith;
+import static org.assertj.core.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
@@ -39,10 +40,13 @@ public class LancamentoRepositoryTest {
     @Test
     public void deveDeletarUmLancamento(){
         Lancamento lancamento = criarEPersistirUmLancamento();
+
         lancamento = entityManager.find(Lancamento.class, lancamento.getId());
+
         repository.delete(lancamento);
+
         Lancamento lancamentoInexistente = entityManager.find(Lancamento.class, lancamento.getId());
-        assertThat(lancamentoInexistente.isNull);
+        assertThat(lancamentoInexistente).isNull();
     }
 
     @Test

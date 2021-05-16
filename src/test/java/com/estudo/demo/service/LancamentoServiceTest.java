@@ -7,24 +7,22 @@ import com.estudo.demo.model.enums.StatusLancamento;
 import com.estudo.demo.model.repository.LancamentoRepository;
 import com.estudo.demo.model.repository.LancamentoRepositoryTest;
 import com.estudo.demo.service.impl.LancamentoServiceImpl;
-import jdk.nashorn.internal.runtime.options.Option;
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.assertj.core.api.Assertions;;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Example;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.security.auth.callback.LanguageCallback;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 public class LancamentoServiceTest {
 
@@ -71,12 +69,10 @@ public class LancamentoServiceTest {
         lancamentoSalvo.setId(1l);
         lancamentoSalvo.setStatus(StatusLancamento.PENDENTE);
 
-        Mockito.doNothing().when(service).validar(lancamentoASalvar);
-
-        Mockito.when(repository.save(lancamentoASalvar)).thenReturn(lancamentoSalvo);
+        Mockito.doNothing().when(service).validar(lancamentoSalvo);
 
         //execucao
-        service.salvar(lancamentoASalvar);
+        service.atualizar(lancamentoSalvo);
 
         //verificacao
         Mockito.verify(repository, Mockito.times(1)).save(lancamentoSalvo);
@@ -96,7 +92,7 @@ public class LancamentoServiceTest {
     public void deveDeletarUmLancamento(){
         //cenario
         Lancamento lancamento = LancamentoRepositoryTest.criarLancamento();
-        lancamento.getId(1l);
+        lancamento.setId(1l);
 
         //execucao
         service.deletar(lancamento);
